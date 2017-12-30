@@ -11,26 +11,26 @@ export default class Info extends React.Component {
           <View style={styles.info}>
             <View style={styles.name}>
               <Text style={styles.bold}>
-                BTC {" | "}
+                {this.props.data.symbol} {" | "}
               </Text>
               <Text>
-                Bitcoin
+                {this.props.data.name}
               </Text>
             </View>
             <Text style={styles.bold}>
-              $12000
+              ${this.props.data.price_usd}
             </Text>
           </View>
 
           <View style={styles.info}>
-            <Text style={styles.changePositive}>
-              1h: -00.2 %
+            <Text style={ (this.props.data.percent_change_1h >= 0) ? styles.changePositive:styles.changeNegative }>
+              1h: {this.props.data.percent_change_1h}%
             </Text>
-            <Text style={styles.changeNegative}>
-              24h: -0.002%
+            <Text style={ (this.props.data.percent_change_24h >= 0) ? styles.changePositive:styles.changeNegative }>
+              24h: {this.props.data.percent_change_24h}%
             </Text>
-            <Text style={styles.changePositive}>
-              7d: 0.0%
+            <Text style={ (this.props.data.percent_change_7d >= 0) ? styles.changePositive:styles.changeNegative }>
+              7d: {this.props.data.percent_change_7d}%
             </Text>
           </View>
 
@@ -46,8 +46,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-around",
     height: 100,
-    borderBottomWidth: 0.2,
-
+    borderBottomWidth: 0.5,
   },
   info:{
     flexDirection: "row",

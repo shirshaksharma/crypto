@@ -8,14 +8,13 @@ const API_URL = "https://api.coinmarketcap.com/v1/ticker/";
 export default class App extends React.Component {
 
   state = {
-    crypto: null,
+    cryptos: null,
   };
 
   componentWillMount(){
-    //this.addAPIInfo();
+    this.addAPIInfo();
   };
 
-  // Returns a promise of the API call
   callAPI = () => (
     axios.get(API_URL)
   );
@@ -23,27 +22,32 @@ export default class App extends React.Component {
   addAPIInfo = () => {
     let self = this;
     this.callAPI().then(
-      res => self.setState({crypto: res.data})
+      res => self.setState({cryptos: res.data})
     );
   };
 
-
+  renderInfo = () => {
+    let array = [];
+    if (this.state.cryptos){
+      this.state.cryptos.map(
+        crypto => array.push(
+          <Info
+            key={crypto.rank}
+            data={crypto}
+          />
+        )
+      );
+    }
+    return (
+      <ScrollView style={styles.scrollContainer}>
+        {array}
+      </ScrollView>)
+  };
 
   render() {
-    console.log(this.state.crypto);
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.scrollContainer}>
-          <Info/>
-          <Info/>
-          <Info/>
-          <Info/>
-          <Info/>
-          <Info/>
-          <Info/>
-          <Info/>
-          <Info/>
-        </ScrollView>
+        {this.renderInfo()}
       </View>
     );
   }
