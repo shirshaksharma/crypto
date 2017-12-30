@@ -11,14 +11,17 @@ export default class App extends React.Component {
     cryptos: null,
   };
 
+  // Gets the API info before the app renders
   componentWillMount() {
     this.addAPIInfo();
   };
 
+  // Returns a promise of the API call
   callAPI = () => (
     axios.get(API_URL)
   );
 
+  // Adds the received data in the application state
   addAPIInfo = () => {
     let self = this;
     this.callAPI().then(
@@ -26,15 +29,18 @@ export default class App extends React.Component {
     );
   };
 
+  // Renders the loading text
   renderLoading = () => (
     <View style={styles.loading}>
       <Text>Getting the data...</Text>
     </View>
   );
 
+  // Renders the cryptocurrency info
   renderInfo = () => {
     let array = [];
     if (this.state.cryptos) {
+      // Adds an Info component for each object in the state to the array
       this.state.cryptos.map(
         crypto => array.push(
           <Info
@@ -44,6 +50,7 @@ export default class App extends React.Component {
         )
       );
     }
+    // Returns the list of information in a scrollable view
     return (
       <View style={styles.container}>
         <ScrollView style={styles.scrollContainer}>
@@ -53,6 +60,8 @@ export default class App extends React.Component {
     )
   };
 
+  // If the API call is pending, render Loading.
+  // If not, render the received information.
   render() {
     if (!this.state.cryptos) {
       return this.renderLoading();
