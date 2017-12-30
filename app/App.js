@@ -11,7 +11,7 @@ export default class App extends React.Component {
     cryptos: null,
   };
 
-  componentWillMount(){
+  componentWillMount() {
     this.addAPIInfo();
   };
 
@@ -22,13 +22,19 @@ export default class App extends React.Component {
   addAPIInfo = () => {
     let self = this;
     this.callAPI().then(
-      res => self.setState({cryptos: res.data})
+      res => self.setState({cryptos: res.data}),
     );
   };
 
+  renderLoading = () => (
+    <View style={styles.loading}>
+      <Text>Getting the data...</Text>
+    </View>
+  );
+
   renderInfo = () => {
     let array = [];
-    if (this.state.cryptos){
+    if (this.state.cryptos) {
       this.state.cryptos.map(
         crypto => array.push(
           <Info
@@ -39,17 +45,21 @@ export default class App extends React.Component {
       );
     }
     return (
-      <ScrollView style={styles.scrollContainer}>
-        {array}
-      </ScrollView>)
+      <View style={styles.container}>
+        <ScrollView style={styles.scrollContainer}>
+          {array}
+        </ScrollView>
+      </View>
+    )
   };
 
   render() {
-    return (
-      <View style={styles.container}>
-        {this.renderInfo()}
-      </View>
-    );
+    if (!this.state.cryptos) {
+      return this.renderLoading();
+    }
+    else {
+      return this.renderInfo();
+    }
   }
 }
 
@@ -59,6 +69,9 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     padding: 10,
   },
-  scrollContainer: {
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });
