@@ -6,7 +6,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Text>
-          PEW 01 : Crypto
+          PAW 01 : Crypto
         </Text>
       </View>
     );
